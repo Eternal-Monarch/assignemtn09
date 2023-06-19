@@ -44,24 +44,31 @@ class _ProductListPageState extends State<ProductListPage> {
         title: Text('Product List'),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: products.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-              child: ListTile(
-                title: Text(products[index].name),
-                subtitle: Text('\$${products[index].price}'),
-                trailing: CounterButton(
-                  onPressed: () {
-                    setState(() {
-                      products[index].incrementCounter(context);
-                    });
-                  },
-                ),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  for (int index = 0; index < products.length; index++)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 7, horizontal: 0),
+                      child: ListTile(
+                        title: Text(products[index].name),
+                        subtitle: Text('\$${products[index].price}'),
+                        trailing: CounterButton(
+                          onPressed: () {
+                            setState(() {
+                              products[index].incrementCounter(context);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -113,7 +120,9 @@ class Product {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Limit Reached'),
-            content: Text('You have already added $name to the cart more than 5 times. You cannot add it anymore.'),
+            content: Text(
+              'You have already added $name to the cart more than 5 times. You cannot add it anymore.',
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -147,7 +156,7 @@ class _CounterButtonState extends State<CounterButton> {
       children: [
         Text(
           'Counter: $counter',
-          style: TextStyle(fontSize: 12),
+          style: TextStyle(fontSize: 15),
         ),
         ElevatedButton(
           onPressed: () {
